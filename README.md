@@ -47,3 +47,9 @@ var ndviPalette = ["FFFFFF", "CE7E45", "DF923D", "F1B555", "FCD163", "99B718",
 Map.addLayer(filtered.median(), rgb_vis, "RGB");
 
 Map.addLayer(with_ndvi.median().clip(Tempisque), {bands: "nd", min: 0, max: 1, palette: ndviPalette}, "NDVI"); 
+
+**Explicación con respecto a la cuenca**
+
+El índice NDVI (Índice Normalizado de Vegetación), es uno de los índices que más se utiliza en el campo de la teledetección. En la actualidad es utilizado en el campo de la agricultura de precisión. Este índice es un indicador simple de biomasa fotosintética activa o sea, es el cálculo de qué tan saludable está la vegetación. Este compara la cantidad de luz roja visible absorbida (B4) y la luz infrarroja cercana reflejada (B5). Esto porque el pigmento de la clorofila en una planta sana absorbe la mayor cantidad de la luz roja visible y la estructura celular de una planta refleja la mayor parte de la luz infrarroja cercana. Lo que indica que una alta actividad fotosintética, que normalmente se asocia con vegetación densa, va a tener menor reflectancia en la banda roja y mayor reflectancia en el infrarrojo cercano (Toribio, 2019). 
+
+Para la cuenca del Tempisque en las zonas verde oscuro los valores de las bandas se encuentran entre 0,34 a 1 lo que indica una vegetación de medianamente sana a muy sana. Para las zonas amarillas y rojas los valores se encuentran entre 0 a 0.33 lo que indica una vegetación muerta o enferma. En esta cuenca, los colores amarillentos coinciden con suelos descubiertos o cultivos y las más rojizas coinciden con los centros urbanos como por ejemplo el centro de Liberia. También, estas zonas rojizas coinciden con cuerpos de agua. 
