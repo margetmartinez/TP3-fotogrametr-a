@@ -17,7 +17,7 @@
 
 ###### Figura 2. NDVI
 
-| Código NDVI |
+**Código NDVI** 
 
 //Imagen landsat (color verdadero)
 var rgb_vis = {min: 0, max: 0.3, bands: ['B4', 'B3', 'B2']};
