@@ -56,7 +56,7 @@ Para la cuenca del Tempisque en las zonas verde oscuro los valores de las bandas
 
 ### **EVI**: Índice de Vegetación Mejorado
 
-![EVI]()
+![EVI](https://github.com/margetmartinez/TP3-fotogrametr-a/blob/main/EVI.PNG)
 
 ###### Figura 3. EVI
 
