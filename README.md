@@ -18,8 +18,8 @@
 ###### Figura 2. NDVI
 
 | Código NDVI |
-| ----------- |
-| //Imagen landsat (color verdadero)
+
+//Imagen landsat (color verdadero)
 var rgb_vis = {min: 0, max: 0.3, bands: ['B4', 'B3', 'B2']};
 
 //Función NDVI
@@ -41,4 +41,4 @@ var ndviPalette = ["FFFFFF", "CE7E45", "DF923D", "F1B555", "FCD163", "99B718",
                   "004C00", "023B01", "012E01", "011D01", "011301"];
 
 Map.addLayer(filtered.median(), rgb_vis, "RGB");
-Map.addLayer(with_ndvi.median().clip(Tempisque), {bands: "nd", min: 0, max: 1, palette: ndviPalette}, "NDVI"); |
+Map.addLayer(with_ndvi.median().clip(Tempisque), {bands: "nd", min: 0, max: 1, palette: ndviPalette}, "NDVI"); 
