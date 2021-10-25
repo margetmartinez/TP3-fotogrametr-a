@@ -1,63 +1,152 @@
-# TP3 Fotogrametría
-## Elaborado por Daniela Amador, B50415 y Marget Martínez, B74477
+TP3 Fotogrametría, Códigos de los índices
+Elaborado por Daniela Amador, B50415 y Marget Martínez, B74477
 
-**Área de estudio:** Región Chorotega
-
-**Cuenca hidrográfica:** Tempisque
-
-![cuenca tempisque](https://github.com/margetmartinez/TP3-fotogrametr-a/blob/main/tem.PNG)
-
-###### Figura 1. Cuenca del río Tempisque
-
-## Índices de vegetación
-
-### **NDVI**: Índice Normalizado de Vegetación
-
-![NDVI](https://github.com/margetmartinez/TP3-fotogrametr-a/blob/main/ndvi.PNG)
-
-###### Figura 2. NDVI
-
-**Código NDVI** 
+NDVI:
 
 //Imagen landsat (color verdadero)
-
 var rgb_vis = {min: 0, max: 0.3, bands: ['B4', 'B3', 'B2']};
 
 //Función NDVI
-
 function addNDVI (image){
   var ndvi = image.normalizedDifference (["B5", "B4"]);
   return image.addBands (ndvi);
 }
 
 //Filtros
-
 var filtered = L8.filterDate("2018-04-01", "2019-04-15")
   .filterBounds(roi);
   var with_ndvi = filtered.map (addNDVI);
   var image = ee.Image(filtered.first());
   var ndvi = addNDVI (image);
   
-//Visualizar el NDVI 
-
+//Visualizar el NDVI  
 var ndviPalette = ["FFFFFF", "CE7E45", "DF923D", "F1B555", "FCD163", "99B718",
                   "74A901", "66A000", "529400", "3E8601", "207401", "056201",
                   "004C00", "023B01", "012E01", "011D01", "011301"];
 
 Map.addLayer(filtered.median(), rgb_vis, "RGB");
+Map.addLayer(with_ndvi.median().clip(Tempisque), {bands: "nd", min: 0, max: 1, palette: ndviPalette}, "NDVI");
 
-Map.addLayer(with_ndvi.median().clip(Tempisque), {bands: "nd", min: 0, max: 1, palette: ndviPalette}, "NDVI"); 
+-------------------------------------------------------------------------------------------------------------
 
-**Explicación de NDVI con respecto a la cuenca**
+EVI:
 
-El índice NDVI (Índice Normalizado de Vegetación), es uno de los índices que más se utiliza en el campo de la teledetección. En la actualidad es utilizado en el campo de la agricultura de precisión. Este índice es un indicador simple de biomasa fotosintética activa o sea, es el cálculo de qué tan saludable está la vegetación. Este compara la cantidad de luz roja visible absorbida (B4) y la luz infrarroja cercana reflejada (B5). Esto porque el pigmento de la clorofila en una planta sana absorbe la mayor cantidad de la luz roja visible y la estructura celular de una planta refleja la mayor parte de la luz infrarroja cercana. Lo que indica que una alta actividad fotosintética, que normalmente se asocia con vegetación densa, va a tener menor reflectancia en la banda roja y mayor reflectancia en el infrarrojo cercano (Toribio, 2019). 
+//Imagen landsat (color verdadero)
+var rgb_vis = {min: 0, max: 0.3, bands: ['B4', 'B3', 'B2']};
 
-Para la cuenca del Tempisque en las zonas verde oscuro los valores de las bandas se encuentran entre 0,34 a 1 lo que indica una vegetación de medianamente sana a muy sana. Para las zonas amarillas y rojas los valores se encuentran entre 0 a 0.33 lo que indica una vegetación muerta o enferma. En esta cuenca, los colores amarillentos coinciden con suelos descubiertos o cultivos y las más rojizas coinciden con los centros urbanos como por ejemplo el centro de Liberia. También, estas zonas rojizas coinciden con cuerpos de agua. 
+//Filtros
+var filtered = L8.filterDate('2019-04-01', '2019-04-15')
+  .filterBounds(roi);
+var image = ee.Image(filtered.first());
+var evi = addEVI (image);
 
-### **EVI**: Índice de Vegetación Mejorado
+//Función EVI
+function addEVI (Image){
+var evi = image.expression(
+'2.5 * ((NIR - RED) / (NIR + 6 * RED - 7.5 * BLUE + 1))', {
+'NIR': image.select('B5'),
+'RED': image.select('B4'),
+'BLUE': image.select('B2')
+}); 
+return image.addBands (evi);
+}
 
-![EVI](https://github.com/margetmartinez/TP3-fotogrametr-a/blob/main/EVI.PNG)
+//Visualizar EVI
+var eviPalette = ["FFFFFF", "CE7E45", "DF923D", "F1B555", "FCD163", "99B718",
+                  "74A901", "66A000", "529400", "3E8601", "207401", "056201",
+                  "004C00", "023B01", "012E01", "011D01", "011301"];
 
-###### Figura 3. EVI
+Map.addLayer(image, rgb_vis, "RGB");
+Map.addLayer(evi.clip(Tempisque), {bands: "constant", min: -1, max: 1, palette: eviPalette}, 'EVI');
 
-**Código EVI**
+
+----------------------------------------------------------------------------------------------------
+
+NDWI:
+
+//Imagen landsat (color verdadero)
+var rgb_vis = {min: 0, max: 0.3, bands: ['B4', 'B3', 'B2']};
+
+//Filtros
+var filtered = L8.filterDate('2019-04-01', '2019-04-15')
+  .filterBounds(roi);
+var image = ee.Image(filtered.first());
+
+//Función NDWI
+var ndwi = image.normalizedDifference(['B5', 'B6']);
+
+//Visualizar NDWI
+var waterPalette = ['white', 'blue'];
+Map.addLayer(image, rgb_vis, "RGB");
+Map.addLayer(ndwi.clip(Tempisque), {bands: "nd", min: -0.5, max: 1, palette: waterPalette}, 'NDWI');
+
+-----------------------------------------------------------------------------------------------------
+
+NDWBI: 
+
+//Imagen landsat (color verdadero)
+var rgb_vis = {min: 0, max: 0.3, bands: ['B4', 'B3', 'B2']};
+
+//Filtros
+var filtered = L8.filterDate('2019-04-01', '2019-04-15')
+.filterBounds(roi);
+var image = ee.Image(filtered.first());
+
+//Función NDWBI
+var ndwbi = image.normalizedDifference(['B3', 'B5']);
+
+//Visualizar NDWBI
+var waterPalette = ['white', 'blue'];
+Map.addLayer(image, rgb_vis, "RGB");
+Map.addLayer(ndwbi.clip(Tempisque), {min: -1, max: 0.5, palette: waterPalette}, 'NDWBI');
+
+------------------------------------------------------------------------------------------------------
+
+NDBI: 
+
+//Imagen landsat (color verdadero)
+var rgb_vis = {min: 0, max: 0.3, bands: ['B4', 'B3', 'B2']};
+
+//Filtros
+var filtered = L8.filterDate('2019-04-01', '2019-04-15')
+  .filterBounds(roi);
+var image = ee.Image(filtered.first());
+
+//Función NDBI
+var waterPalette = ['white', 'blue'];
+var ndbi = image.normalizedDifference(['B6', 'B5']);
+var barePalette = waterPalette.slice().reverse();
+
+//Visualizar NDBI
+var barePalette = ['white', 'blue'];
+Map.addLayer(image, rgb_vis, "RGB");
+Map.addLayer(ndbi.clip(Tempisque), {min: -1, max: 0.5, palette: barePalette}, 'NDBI');
+
+-----------------------------------------------------------------------------------------------------
+
+
+BAI: 
+
+//Imagen landsat
+var rgb_vis = {min: 0, max: 0.3, bands: ['B4', 'B3', 'B2']};
+
+//Filtros e imagen color verdadero
+var burnImage = ee.Image(L8
+.filterBounds(ee.Geometry.Point(-85.40, 10.39))
+.filterDate('2019-04-01', '2019-04-15')
+.sort('CLOUD_COVER')
+.first());
+
+//Visualización
+Map.addLayer(burnImage, rgb_vis, 'burn image');
+
+//Función BAI
+var bai = burnImage.expression(
+'1.0 / ((0.1 - RED)**2 + (0.06 - NIR)**2)', {
+'NIR': burnImage.select('B5'),
+'RED': burnImage.select('B4'),
+});
+
+//Visualización del BAI
+var burnPalette = ['green', 'blue', 'yellow', 'red'];
+Map.addLayer(bai.clip(Tempisque), {min: 0, max: 400, palette: burnPalette}, 'BAI');
