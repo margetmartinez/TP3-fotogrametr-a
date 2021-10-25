@@ -27,7 +27,7 @@ var ndviPalette = ["FFFFFF", "CE7E45", "DF923D", "F1B555", "FCD163", "99B718",
 Map.addLayer(filtered.median(), rgb_vis, "RGB");
 Map.addLayer(with_ndvi.median().clip(Tempisque), {bands: "nd", min: 0, max: 1, palette: ndviPalette}, "NDVI");
 
--------------------------------------------------------------------------------------------------------------
+
 
 EVI:
 
@@ -60,7 +60,7 @@ Map.addLayer(image, rgb_vis, "RGB");
 Map.addLayer(evi.clip(Tempisque), {bands: "constant", min: -1, max: 1, palette: eviPalette}, 'EVI');
 
 
-----------------------------------------------------------------------------------------------------
+
 
 NDWI:
 
@@ -80,7 +80,7 @@ var waterPalette = ['white', 'blue'];
 Map.addLayer(image, rgb_vis, "RGB");
 Map.addLayer(ndwi.clip(Tempisque), {bands: "nd", min: -0.5, max: 1, palette: waterPalette}, 'NDWI');
 
------------------------------------------------------------------------------------------------------
+
 
 NDWBI: 
 
@@ -100,7 +100,7 @@ var waterPalette = ['white', 'blue'];
 Map.addLayer(image, rgb_vis, "RGB");
 Map.addLayer(ndwbi.clip(Tempisque), {min: -1, max: 0.5, palette: waterPalette}, 'NDWBI');
 
-------------------------------------------------------------------------------------------------------
+
 
 NDBI: 
 
@@ -122,7 +122,7 @@ var barePalette = ['white', 'blue'];
 Map.addLayer(image, rgb_vis, "RGB");
 Map.addLayer(ndbi.clip(Tempisque), {min: -1, max: 0.5, palette: barePalette}, 'NDBI');
 
------------------------------------------------------------------------------------------------------
+
 
 
 BAI: 
